@@ -1,0 +1,77 @@
+Dim swApp As SldWorks.SldWorks
+Dim swModelDoc As SldWorks.ModelDoc2
+
+Option Explicit
+   
+
+Sub main()
+ 
+    Dim nDocType As Long
+    Dim nErrors As Long
+    Dim nWarnings As Long
+
+    Set swApp = Application.SldWorks
+    Set swModelDoc = swApp.OpenDoc6("C:\Users\JBP190000\Documents\TEST.SLDPRT", swDocPART, swOpenDocOptions_Silent, "", nErrors, nWarnings)
+   
+    Dim sustain As sustainabilityLib.sustainabilityApp
+    Set sustain = swModelDoc.Extension.GetSustainability
+   
+
+    ' Material
+    Dim materialInfo As sustainabilityLib.SustainabilityMaterial
+    Set materialInfo = sustain.GetSustainabilityMaterial
+
+    Dim MaterialClass As String
+    MaterialClass = "Sustainability Extras : Building Materials"
+    materialInfo.MaterialClass = MaterialClass
+
+    Dim MaterialName As String
+    MaterialName = "Concrete"
+    materialInfo.MaterialName = MaterialName
+
+    ' Manufacturing
+    Dim manufacturingInfo As sustainabilityLib.SustainabilityManufacturing
+    Set manufacturingInfo = sustain.GetSustainabilityManufacturing
+   
+
+    ' Transportation
+    Dim transInfo As sustainabilityLib.SustainabilityTransportation
+    Set transInfo = sustain.GetSustainabilityTransportation
+   
+
+    ' Disposal at end of life
+    Dim eofInfo As sustainabilityLib.SustainabilityEndOfLife
+    Set eofInfo = sustain.GetSustainabilityEndOfLife
+
+    ' Use
+    Dim partInfo As sustainabilityLib.SustainabilityPartUse
+    Set partInfo = sustain.GetSustainabilityPartUse
+   
+    Dim environmentalImpactInfo As sustainabilityLib.SustainabilityEnvironmentalImpact
+    Set environmentalImpactInfo = sustain.GetSustainabilityEnvironmentalImpact
+    
+    Dim CarbonValues As Variant
+    CarbonValues = environmentalImpactInfo.GetCurrentCarbonFootPrint2
+    
+    Dim WaterValues As Variant
+    WaterValues = environmentalImpactInfo.GetWaterEutrophication2
+    
+    Dim AirValues As Variant
+    AirValues = environmentalImpactInfo.GetAirAcidification2
+    
+    Dim EnergyValues As Variant
+    EnergyValues = environmentalImpactInfo.GetEnergyConsumption2
+    
+    Dim FileType As Long
+    Dim FileName As String
+    Dim SaveTo As String
+
+    FileType = swSustainabilitySaveAsFileType_e.swSustainabilitySpreadsheet
+    FileName = "EnvImpactReport2"
+    SaveTo = "C:\Users\JBP190000\Documents\darn"
+
+    environmentalImpactInfo.SaveAsReport FileType, FileName, SaveTo
+
+End Sub
+
+
