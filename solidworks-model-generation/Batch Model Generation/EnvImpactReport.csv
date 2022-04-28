@@ -1,0 +1,37 @@
+Output from SolidWorks Sustainability
+Date: ,04/25/2022
+Time: ,6 : 50 PM
+SolidWorks Model: ,E:\ACMRESEARCH\FloorPlan1\Batch Model Generation\Batch_Generation_Example.SLDASM
+
+---------- Results for this assembly ----------
+
+ ,Carbon Footprint (kg CO2) ,Energy Consumption (MJ) ,Air Acidification (kg SO2) ,Water Eutrophication (kg PO4)
+Material ,2.85025e+07 ,3.72046e+08 ,72685.2 ,7080.81
+Manufacturing ,1.09758e+07 ,1.09291e+08 ,154599 ,5969.95
+Use ,0 ,0 ,0 ,0
+End Of Life ,7.47812e+06 ,5.49031e+06 ,3801.32 ,9372.31
+Transportation ,1.51987e+06 ,2.01801e+07 ,19075.5 ,2404.84
+
+Total ,4.84763e+07 ,5.07008e+08 ,250161 ,24827.9 ,
+
+---------- Inputs to Sustainability Analysis ----------
+
+-- Input -- ,-- Value -- , -- Unit --
+
+Built to Last ,100 ,Year
+Duration of Use ,1 ,Year
+Assembly Process Region ,Asia
+Energy required for assembly process? ,No
+Assembly Process Fuel Type ,
+Assembly Process fuel amount ,0 ,
+Use Region ,North America
+Energy required for use phase? ,No
+Type of use phase energy ,
+Use Phase Energy Amount ,0 ,
+Rail Transportation ,0 ,km
+Truck Transportation ,0 ,km
+Ship Transportation ,12392 ,km
+Plane Transportation ,0 ,km
+Percent Recycled ,33 ,N/A
+Percent Incinerated ,13 ,N/A
+Percent Landfill ,54 ,N/A
