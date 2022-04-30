@@ -1,18 +1,18 @@
 Output from SolidWorks Sustainability
-Date: ,04/25/2022
-Time: ,6 : 50 PM
+Date: ,04/29/2022
+Time: ,7 : 32 PM
 SolidWorks Model: ,E:\ACMRESEARCH\FloorPlan1\Batch Model Generation\Batch_Generation_Example.SLDASM
 
 ---------- Results for this assembly ----------
 
  ,Carbon Footprint (kg CO2) ,Energy Consumption (MJ) ,Air Acidification (kg SO2) ,Water Eutrophication (kg PO4)
-Material ,2.85025e+07 ,3.72046e+08 ,72685.2 ,7080.81
-Manufacturing ,1.09758e+07 ,1.09291e+08 ,154599 ,5969.95
+Material ,1.3749e+07 ,1.79468e+08 ,35061.9 ,3415.64
+Manufacturing ,5.29452e+06 ,5.27198e+07 ,74575.7 ,2879.78
 Use ,0 ,0 ,0 ,0
-End Of Life ,7.47812e+06 ,5.49031e+06 ,3801.32 ,9372.31
-Transportation ,1.51987e+06 ,2.01801e+07 ,19075.5 ,2404.84
+End Of Life ,3.6073e+06 ,2.64842e+06 ,1833.68 ,4521.01
+Transportation ,733157 ,9.73448e+06 ,9201.63 ,1160.05
 
-Total ,4.84763e+07 ,5.07008e+08 ,250161 ,24827.9 ,
+Total ,2.3384e+07 ,2.4457e+08 ,120673 ,11976.5 ,
 
 ---------- Inputs to Sustainability Analysis ----------
 
