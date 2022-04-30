@@ -1,77 +1,126 @@
+'----------------------------------------------------------------------------
+' Preconditions:
+' 1. Select Tools > References > sustainability 20xx Type Library or
+'    click Tools > References > Browse... and select install_dir\sustainability.tlb.
+'    ("C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\sustainability.tlb" in the ECSW computer lab)
+' 2. Open an assembly.
+' 3. Open an Immediate window.
+' 4. Run to the breakpoint and wait for the environmental impact results to
+'    finish updating in the Sustainability Task Pane.
+' 5. Press F5 to finish.
+'
+' Postconditions:
+' 1. Inspect the Immediate window.
+' 2. C:\EnvImpactReport.docx is created and opened.
+' ---------------------------------------------------------------------------
+
 Dim swApp As SldWorks.SldWorks
-Dim swModelDoc As SldWorks.ModelDoc2
+Dim asmDoc As SldWorks.ModelDoc2
+Dim sustain As sustainabilityLib.sustainabilityApp
+Dim materialInfo As sustainabilityLib.SustainabilityMaterial
+Dim assemblyProcess As sustainabilityLib.SustainabilityAssemblyProcess
+Dim assemblyUse As sustainabilityLib.SustainabilityAssemblyUse
+Dim transInfo As sustainabilityLib.SustainabilityTransportation
+Dim eolInfo As sustainabilityLib.SustainabilityEndOfLife
+Dim environmentalImpactInfo As sustainabilityLib.SustainabilityEnvironmentalImpact
+Dim missingComponentList As Variant
+Dim materialclass As String
+Dim materialname As String
+Dim assemblyEnergy As Boolean
+Dim assemblyProcessAmt As Variant
+Dim BuildToLast As Double
+Dim energylifespan As Boolean
+Dim assemblyUseAmt As Variant
+Dim CarbonValues As Variant
+Dim WaterValues As Variant
+Dim AirValues As Variant
+Dim EnergyValues As Variant
 
 Option Explicit
-   
-
 Sub main()
- 
-    Dim nDocType As Long
-    Dim nErrors As Long
-    Dim nWarnings As Long
 
     Set swApp = Application.SldWorks
-    Set swModelDoc = swApp.OpenDoc6("C:\Users\JBP190000\Documents\TEST.SLDPRT", swDocPART, swOpenDocOptions_Silent, "", nErrors, nWarnings)
-   
-    Dim sustain As sustainabilityLib.sustainabilityApp
-    Set sustain = swModelDoc.Extension.GetSustainability
    
 
-    ' Material
-    Dim materialInfo As sustainabilityLib.SustainabilityMaterial
+    Set asmDoc = swApp.ActiveDoc
+  
+    ' Alternatively, to open inactive document:
+    ' Set sustain = swApp.OpenDoc6(document_path, swDocASSEMBLY, swOpenDocOptions_Silent, "", nErrors, nWarnings)
+    Set sustain = asmDoc.Extension.GetSustainability
+   
+
+    ' Assign construction material
     Set materialInfo = sustain.GetSustainabilityMaterial
-
-    Dim MaterialClass As String
-    MaterialClass = "Sustainability Extras : Building Materials"
-    materialInfo.MaterialClass = MaterialClass
-
-    Dim MaterialName As String
-    MaterialName = "Concrete"
-    materialInfo.MaterialName = MaterialName
-
-    ' Manufacturing
-    Dim manufacturingInfo As sustainabilityLib.SustainabilityManufacturing
-    Set manufacturingInfo = sustain.GetSustainabilityManufacturing
+   
+    Debug.Print "  Number of components missing materials: " & materialInfo.GetMissingMaterialComponentCount
+    missingComponentList = materialInfo.GetMissingMaterialComponentList
+   
    
 
-    ' Transportation
-    Dim transInfo As sustainabilityLib.SustainabilityTransportation
+    materialclass = "Sustainability Extras : Building Materials"
+    materialInfo.materialclass = materialclass
+   
+
+    materialname = "Concrete"
+    materialInfo.materialname = materialname
+   
+
+    materialInfo.ViewResults
+   
+
+    ' Emissions from Assembly Process
+    Set assemblyProcess = sustain.GetSustainabilityAssemblyProcess
+   
+
+    assemblyProcess.EnergyForAssemblyProcess = True
+    assemblyEnergy = assemblyProcess.EnergyForAssemblyProcess
+   
+   
+    ' Set the # of years the building is meant to last
+    BuildToLast = 100#
+    assemblyProcess.BuiltToLast = BuildToLast
+   
+
+    ' Emissions from energy need
+    Set assemblyUse = sustain.GetSustainabilityAssemblyUse
+   
+
+    assemblyUse.energyOverlifeSpan = True
+    energylifespan = assemblyUse.energyOverlifeSpan
+   
+
+    ' Transportation calculations
     Set transInfo = sustain.GetSustainabilityTransportation
    
 
     ' Disposal at end of life
-    Dim eofInfo As sustainabilityLib.SustainabilityEndOfLife
-    Set eofInfo = sustain.GetSustainabilityEndOfLife
-
-    ' Use
-    Dim partInfo As sustainabilityLib.SustainabilityPartUse
-    Set partInfo = sustain.GetSustainabilityPartUse
+    Set eolInfo = sustain.GetSustainabilityEndOfLife
    
-    Dim environmentalImpactInfo As sustainabilityLib.SustainabilityEnvironmentalImpact
+
+    ' Environmental Impact
+   
+
     Set environmentalImpactInfo = sustain.GetSustainabilityEnvironmentalImpact
-    
-    Dim CarbonValues As Variant
+   
+
+    environmentalImpactInfo.UpdateResults
+
     CarbonValues = environmentalImpactInfo.GetCurrentCarbonFootPrint2
-    
-    Dim WaterValues As Variant
     WaterValues = environmentalImpactInfo.GetWaterEutrophication2
-    
-    Dim AirValues As Variant
     AirValues = environmentalImpactInfo.GetAirAcidification2
-    
-    Dim EnergyValues As Variant
     EnergyValues = environmentalImpactInfo.GetEnergyConsumption2
-    
+   
+
     Dim FileType As Long
     Dim FileName As String
     Dim SaveTo As String
 
     FileType = swSustainabilitySaveAsFileType_e.swSustainabilitySpreadsheet
-    FileName = "EnvImpactReport2"
-    SaveTo = "C:\Users\JBP190000\Documents\darn"
+    FileName = "EnvImpactReport"
+    SaveTo = "E:\ACMRESEARCH\FloorPlan1\Batch Model Generation"
 
     environmentalImpactInfo.SaveAsReport FileType, FileName, SaveTo
 
+ 
+
 End Sub
-
-
